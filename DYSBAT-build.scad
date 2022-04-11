@@ -1,17 +1,17 @@
 
 //Style used for choosing clearances
-s="3DPR";       //extra clearance added
+s="3D";       //extra clearance added
 //s="LAZE";       //tight tolerance
 
 //Ouput used for choosing  output
-o="3DPR";       //STL (3d) 
+o="3D";       //STL (3d) 
 //o="LAZE";       //DXF (2d)
 
 //i=0;    //Build all
 //m="NONE";
 
 namePieces = false;
-i=11;    //Build all
+i=1;    //Build all
 m="ALL";
 
 //i=1;    //Build all
@@ -48,7 +48,7 @@ include <DYSBAT-working.scad>
 
 
 module DYSBATbuild(){
-
+    
             shift = 200;
 
             translate([shift*0,0,0]){

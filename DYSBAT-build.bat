@@ -6,7 +6,7 @@ setlocal enabledelayedexpansion
 SET PROJECT=DYSBAT
 
 
-set ITEM[1]=ZZZZ
+set ITEM[1]=ryobiTest
 set ITEM[2]=ZZZZ
 set ITEM[3]=ZZZZ
 set ITEM[4]=ZZZZ
