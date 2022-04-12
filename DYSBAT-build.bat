@@ -6,8 +6,8 @@ setlocal enabledelayedexpansion
 SET PROJECT=DYSBAT
 
 
-set ITEM[1]=ryobiTest
-set ITEM[2]=ZZZZ
+set ITEM[1]=ryobiTestV1
+set ITEM[2]=ryobiTestV2
 set ITEM[3]=ZZZZ
 set ITEM[4]=ZZZZ
 set ITEM[5]=ZZZZ
@@ -25,7 +25,7 @@ SET LASERFILE=C:\DB\Dropbox\LALA-Laser Files\BBBB-projectFiles\%PROJECT%
 
 del %FILEFULL%.stl
 
-(for /l %%i in (1,1,11) do (
+(for /l %%i in (2,1,11) do (
     echo Making Index: %%i Filename: %FILEFULL%-!ITEM[%%i]!	
     del %FILEFULL%-!ITEM[%%i]!-3DPR.stl   
     openscad -o %FILEFULL%-!ITEM[%%i]!-3DPR.stl -D "i=%%i;o=\"3DPR"" DYSBAT-3DPR.scad

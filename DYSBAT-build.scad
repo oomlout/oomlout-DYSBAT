@@ -11,7 +11,7 @@ o="3D";       //STL (3d)
 //m="NONE";
 
 namePieces = false;
-i=1;    //Build all
+i=2;    //Build all
 m="ALL";
 
 //i=1;    //Build all

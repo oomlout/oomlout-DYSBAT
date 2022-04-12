@@ -13,63 +13,84 @@ OPSCbuild(shift=200);
 // Description
 module draw1(){    
     color="yellow";
-    drawAdapterV1(color);
-}
-
-module drawAdapterV1(color){
-    testing = false;
-    difference(){
-        //postive portion
-        
-        union(){            
-//////adapterMain oi
-            oii("cubeRounded","adapterMain",color);            
-//////adapterMainFrontExtension oi
-            oii("cubeRounded","adapterMainFrontExtension",color);
-        }
-        //negative portion
-        union(){            
-//////testWireHole oi
-//////testWireHoleFront oii insert    
-            oii("cylinder","testWireHoleFront",color);  
-            oii("cylinder","testWireHoleRear",color);            
-            
-
-
-            oiiiDyson("dysonHandleClearance","dysonShift",color);     ////
-            oiiiDyson("dysonV6Handle","dysonShift",color);     ////
-            oiiiDyson("dysonV6DustBin","dysonShift",color);     ////
-            //oiiiDyson("dysonV6Battery","dysonShift",color);     ////
-            oiiiDyson("dysonV6FrontScrewNegative","dysonShift",color);     ////
-            oiiiDyson("dysonV6batteryTerminals","dysonShift",color);     ////
-            oiiiRyobi("ryobiBattery","ryobiBatteryShift",color);     ////
-        }
-    }
-    //////adding things back
-    #oiiiRyobi("ryobiBatteryClips","ryobiBatteryShift",color);     
-    intersection(){
-//////adapterainBatteryStemMask oi
-            oii("cube","adapterMainBatteryStemMask",color);
-            oiiiDyson("dysonV6Battery","dysonShift",color);     /////
-    }
-
-
-    if(testing){
-        color = "blue";
-    //////ryobiBatteryShift oiii insert            
-        oiiiRyobi("ryobiBattery","ryobiBatteryShift",color);     ////ASSEMBLY
-    //////dysonShift oiii insert    
-        oiiiDyson("dysonV6Handle","dysonShift",color);     ////ASSEMBLY
-        oiiiDyson("dysonV6DustBin","dysonShift",color);     ////ASSEMBLY
-    }
+    drawAdapter(color, "V1");
 }
 
 // ZZZZ
 // Description
 module draw2(){
     color="orange";
-    
+    drawAdapter(color, "V2");
 }
+
+
+module drawAdapter(color, ver){
+    translate([0,0,100]){
+        testing = false;
+        difference(){
+            //postive portion
+            
+            union(){            
+    //////adapterMain oi
+                oii("cubeRounded",str("adapterMain",ver),color);            
+    //////adapterMainFrontExtension oi
+                oii("cubeRounded",str("adapterMainFrontExtension",ver),color);
+            }
+            //negative portion
+            union(){     
+                adapterNegativeBits(color,ver);
+            }
+        }
+        adapterAddBackBits(color,ver);
+        intersection(){
+    //////adapterainBatteryStemMask oi
+                oii("cubeRounded","adapterMainBatteryStemMask",color);
+                oiiiDyson("dysonV6Battery",str("dysonShift",ver),color);     /////
+        }
+
+
+        if(testing){
+            debugBits("blue",ver);
+        }
+    }
+}
+
+
+
+module debugBits(color, ver){    
+    //////ryobiBatteryShift oiii insert            
+        oiiiRyobi("ryobiBattery",str("ryobiBatteryShift",ver),color);     ////ASSEMBLY
+    //////dysonShift oiii insert    
+        oiiiDyson("dysonV6Handle",str("dysonShift",ver),color);     ////ASSEMBLY
+        oiiiDyson("dysonV6DustBin",str("dysonShift",ver),color);     ////ASSEMBLY
+}
+
+module adapterNegativeBits(color, ver){
+//////testWireHole oi
+//////testWireHoleFront oii insert
+            if(ver == "V1"){
+                oii("cylinder","testWireHoleFront",color);  
+                oii("cylinder","testWireHoleRear",color); 
+            }else if(ver == "V2"){
+                #oii("cylinder","testWireHoleV2",color); 
+            }
+            oiiiDyson("dysonHandleClearance",str("dysonShift",ver),color);     ////
+            oiiiDyson("dysonV6Handle",str("dysonShift",ver),color);     ////
+            oiiiDyson("dysonV6DustBin",str("dysonShift",ver),color);     ////
+            //oiiiDyson("dysonV6Battery",str("dysonShift",ver),color);     ////
+            oiiiDyson("dysonV6FrontScrewNegative",str("dysonShift",ver),color);     ////
+            oiiiDyson("dysonV6batteryTerminalSingle",str("dysonShift",ver),color);     ////
+            oiiiRyobi("ryobiBattery",str("ryobiBatteryShift",ver),color,ex=2);     ////
+
+
+}
+
+module adapterAddBackBits(color, ver){
+    //////adding things back
+    oiiiRyobi("ryobiBatteryClips",str("ryobiBatteryShift",ver),color);     
+}
+
+
 
 // ZZZZ
 // Description
@@ -167,8 +188,8 @@ module oiii(type,name,color){
    oii(type,x=gvv(str(name,"X")),y=gvv(str(name,"Y")),z=gvv(str(name,"Z")),rotX=gvv(str(name,"RotX")),rotY=gvv(str(name,"RotY")),rotZ=gvv(str(name,"RotZ")),color=color); 
 }
 
-module oiiiRyobi(type,name,color){
-   oiiR(type,x=gvv(str(name,"X")),y=gvv(str(name,"Y")),z=gvv(str(name,"Z")),rotX=gvv(str(name,"RotX")),rotY=gvv(str(name,"RotY")),rotZ=gvv(str(name,"RotZ")),color=color); 
+module oiiiRyobi(type,name,color,ex=0){
+   oiiR(type,x=gvv(str(name,"X")),y=gvv(str(name,"Y")),z=gvv(str(name,"Z")),rotX=gvv(str(name,"RotX")),rotY=gvv(str(name,"RotY")),rotZ=gvv(str(name,"RotZ")),color=color,ex=ex); 
 }
 
 module oiiiDyson(type,name,color){
@@ -207,41 +228,77 @@ function gvv(name) =
 name=="TEST" ? "TEST":
 ////////////Shift Variables
 //////ryobiBatteryShift coordinates'
-    name=="ryobiBatteryShiftX"      ? 22 :
-    name=="ryobiBatteryShiftY"      ? 0 :    
-    name=="ryobiBatteryShiftZ"      ? 36 :    
-    name=="ryobiBatteryShiftRotX"       ? 0 :    
-    name=="ryobiBatteryShiftRotY"       ? 0 :    
-    name=="ryobiBatteryShiftRotZ"       ? 0 :    
+    name=="ryobiBatteryShiftV1X"      ? 22 :
+    name=="ryobiBatteryShiftV1Y"      ? 0 :    
+    name=="ryobiBatteryShiftV1Z"      ? 36 :    
+    name=="ryobiBatteryShiftV1RotX"       ? 0 :    
+    name=="ryobiBatteryShiftV1RotY"       ? 0 :    
+    name=="ryobiBatteryShiftV1RotZ"       ? 0 :    
 //////dysonShift coordinates'o    
-    name=="dysonShiftX"     ? 0 :
-    name=="dysonShiftY"     ? 0 :    
-    name=="dysonShiftZ"     ? 0 :    
-    name=="dysonShiftRotX"      ? 0 :    
-    name=="dysonShiftRotY"      ? 0 :    
-    name=="dysonShiftRotZ"      ? 0 :  
+    name=="dysonShiftV1X"     ? 0 :
+    name=="dysonShiftV1Y"     ? 0 :    
+    name=="dysonShiftV1Z"     ? 0 :    
+    name=="dysonShiftV1RotX"      ? 0 :    
+    name=="dysonShiftV1RotY"      ? 0 :    
+    name=="dysonShiftV1RotZ"      ? 0 :  
+//////ryobiBatteryShift coordinates'
+    name=="ryobiBatteryShiftV2X"      ? -50 :
+    name=="ryobiBatteryShiftV2Y"      ? -40 :    
+    name=="ryobiBatteryShiftV2Z"      ? 36 :    
+    name=="ryobiBatteryShiftV2RotX"       ? 0 :    
+    name=="ryobiBatteryShiftV2RotY"       ? 0 :    
+    name=="ryobiBatteryShiftV2RotZ"       ? -90 :    
+//////dysonShift coordinates'o    
+    name=="dysonShiftV2X"     ? 0 :
+    name=="dysonShiftV2Y"     ? 0 :    
+    name=="dysonShiftV2Z"     ? 0 :    
+    name=="dysonShiftV2RotX"      ? 0 :    
+    name=="dysonShiftV2RotY"      ? 0 :    
+    name=="dysonShiftV2RotZ"      ? 0 :      
 //////adapterMain dimensions'    
-name=="adapterMainW"        ? 100 :
-name=="adapterMainH"        ? gvvR("batteryBaseH") + 10 :
-name=="adapterMainD"        ? 22 :
-name=="adapterMainX"        ? gvv("ryobiBatteryShiftX") :
-name=="adapterMainY"        ? 0 :
-name=="adapterMainZ"        ? 5 :
-name=="adapterMainRadius"       ? 5 :
-name=="adapterMainRotX"     ? 0 :
-name=="adapterMainRotY"     ? 0 :
-name=="adapterMainRotZ"     ? 0 :
+name=="adapterMainV1W"        ? 100 :
+name=="adapterMainV1H"        ? gvvR("batteryBaseH") + 10 :
+name=="adapterMainV1D"        ? 22 :
+name=="adapterMainV1X"        ? gvv("ryobiBatteryShiftV1X") :
+name=="adapterMainV1Y"        ? 0 :
+name=="adapterMainV1Z"        ? 5 :
+name=="adapterMainV1Radius"       ? 5 :
+name=="adapterMainV1RotX"     ? 0 :
+name=="adapterMainV1RotY"     ? 0 :
+name=="adapterMainV1RotZ"     ? 0 :
 //////adapterMainFrontExtension dimensions'
-name=="adapterMainFrontExtensionW"      ?110 :
-name=="adapterMainFrontExtensionH"      ? gvvD("handleH")+6 :
-name=="adapterMainFrontExtensionD"      ? gvv("adapterMainD") :
-name=="adapterMainFrontExtensionX"      ? -50 :
-name=="adapterMainFrontExtensionY"      ? 0 :
-name=="adapterMainFrontExtensionZ"      ? gvv("adapterMainZ") :
-name=="adapterMainFrontExtensionRadius"     ? 5 :
-name=="adapterMainFrontExtensionRotX"       ? 0 :
-name=="adapterMainFrontExtensionRotY"       ? 0 :
-name=="adapterMainFrontExtensionRotZ"       ? 0 :
+name=="adapterMainFrontExtensionV1W"      ?110 :
+name=="adapterMainFrontExtensionV1H"      ? gvvD("handleH")+6 :
+name=="adapterMainFrontExtensionV1D"      ? gvv("adapterMainV1D") :
+name=="adapterMainFrontExtensionV1X"      ? -50 :
+name=="adapterMainFrontExtensionV1Y"      ? 0 :
+name=="adapterMainFrontExtensionV1Z"      ? gvv("adapterMainV1Z") :
+name=="adapterMainFrontExtensionV1Radius"     ? 5 :
+name=="adapterMainFrontExtensionV1RotX"       ? 0 :
+name=="adapterMainFrontExtensionV1RotY"       ? 0 :
+name=="adapterMainFrontExtensionV1RotZ"       ? 0 :
+//////adapterMain dimensions'    
+name=="adapterMainV2W"        ? 115 :
+name=="adapterMainV2H"        ? gvvR("batteryBaseH") + 15 :
+name=="adapterMainV2D"        ? 22 :
+name=="adapterMainV2X"        ? gvv("ryobiBatteryShiftV2X")+3 :
+name=="adapterMainV2Y"        ? -28 :
+name=="adapterMainV2Z"        ? 5 :
+name=="adapterMainV2Radius"       ? 5 :
+name=="adapterMainV2RotX"     ? 0 :
+name=="adapterMainV2RotY"     ? 0 :
+name=="adapterMainV2RotZ"     ? 0 :
+//////adapterMainFrontExtension dimensions'
+name=="adapterMainFrontExtensionV2W"      ? 0 :
+name=="adapterMainFrontExtensionV2H"      ? 0 :
+name=="adapterMainFrontExtensionV2D"      ? 0 :
+name=="adapterMainFrontExtensionV2X"      ? -50 :
+name=="adapterMainFrontExtensionV2Y"      ? 0 :
+name=="adapterMainFrontExtensionV2Z"      ? gvv("adapterMainV2Z") :
+name=="adapterMainFrontExtensionV2Radius"     ? 5 :
+name=="adapterMainFrontExtensionV2RotX"       ? 0 :
+name=="adapterMainFrontExtensionV2RotY"       ? 0 :
+name=="adapterMainFrontExtensionV2RotZ"       ? 0 :
 //////adapterMainBatteryStemMask dimensions'
 name=="adapterMainBatteryStemMaskW"     ? 60 :
 name=="adapterMainBatteryStemMaskH"     ? 33 :
@@ -253,7 +310,8 @@ name=="adapterMainBatteryStemMaskRadius"        ? 0 :
 name=="adapterMainBatteryStemMaskRotX"      ? 0 :
 name=="adapterMainBatteryStemMaskRotY"      ? 0 :
 name=="adapterMainBatteryStemMaskRotZ"      ? 0 : 
-//////testWireHole dimensions'//////testWireHole coordinates'
+//////testWireHole dimensions'
+//////testWireHole coordinates'
 name=="testWireHoleFrontW"       ? 0 :
 name=="testWireHoleFrontH"       ? 0 :
 name=="testWireHoleFrontD"       ? 62 :
@@ -275,5 +333,15 @@ name=="testWireHoleRearRadius"      ? gvv("testWireHoleFrontRadius") :
 name=="testWireHoleRearRotX"        ? -gvv("testWireHoleFrontRotX") :
 name=="testWireHoleRearRotY"        ? gvv("testWireHoleFrontRotY") :
 name=="testWireHoleRearRotZ"        ? -gvv("testWireHoleFrontRotZ") :
-
+//////testWireHole coordinates'
+name=="testWireHoleV2W"       ? 0 :
+name=="testWireHoleV2H"       ? 0 :
+name=="testWireHoleV2D"       ? 70 :
+name=="testWireHoleV2X"       ? -26 :
+name=="testWireHoleV2Y"       ? -70 :
+name=="testWireHoleV2Z"       ? 7 :
+name=="testWireHoleV2Radius"      ? 5 :
+name=="testWireHoleV2RotX"        ? 76 :
+name=="testWireHoleV2RotY"        ? 0 :
+name=="testWireHoleV2RotZ"        ? 0 :
 0;
