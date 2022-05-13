@@ -72,7 +72,7 @@ module adapterNegativeBits(color, ver){
                 oii("cylinder","testWireHoleFront",color);  
                 oii("cylinder","testWireHoleRear",color); 
             }else if(ver == "V2"){
-                #oii("cylinder","testWireHoleV2",color); 
+                oii("cylinder","testWireHoleV2",color); 
             }
             oiiiDyson("dysonHandleClearance",str("dysonShift",ver),color);     ////
             oiiiDyson("dysonV6Handle",str("dysonShift",ver),color);     ////
@@ -92,19 +92,52 @@ module adapterAddBackBits(color, ver){
 
 
 
+dewaltShift = 4;
 // ZZZZ
 // Description
 module draw3(){
     color="yellow";
-    
+    intersection(){
+        oi("cube",width=1000,height=1000,depth=1000,z=1000-dewaltShift,color=color);
+        dewaltAdapterV1(color);
+    }   
 }
+
 
 // ZZZZ
 // Description
 module draw4(){
-    color="green";
-    
+    color="yellow";
+    intersection(){
+        oi("cube",width=1000,height=1000,depth=1000,z=-dewaltShift,color=color);
+        dewaltAdapterV1(color);
+    }   
+}    
+
+module dewaltAdapterV1(color){
+difference(){
+        //postive portion
+        union(){            
+//////dewaltMainV1 oi
+            oii("cubeRounded","dewaltMainV1",color);
+        }
+        //negative portion
+        union(){
+            oiii("dewaltBatteryHolder","dewaltBatteryHolder",color);
+            //oiiD("dysonHandleClearance","",color);
+            oiiiDyson("dysonV6DustBinSimple",str("dysonShift",1),color);
+//////dewaltCarcass oi
+            oiii("dysonCarcassCutout","dysonCarcass",color);
+            oiii("dysonChargeBoardV6","dysonChargeBoard",color);             
+//////dewaltMainHoleA oi
+            oii("holeM6","dewaltMainHoleA",color);           
+            oii("holeM6","dewaltMainHoleB",color);           
+            oii("holeM6","dewaltMainHoleC",color);           
+            oii("holeM6","dewaltMainHoleD",color);           
+        }
+    }
 }
+
 
 // ZZZZ
 // Description
@@ -216,10 +249,73 @@ module oii(type,name,color="gray",x=0,y=0,z=0,ex=0,length=0,rotX=0,rotY=0,rotZ=0
                             union(){                            
                             }                            
                         }                            
+                    }
+////////////////////////////////////
+////////////      Dyson Stuff
+
+//@@@@@@dysonChargeBoardV6 Asembly
+                    else if(type=="dysonChargeBoardV6"){
+                        difference(){                    
+                            //postive portion                        
+                            union(){
+//////dysonChargeBoardSquare oi
+                                oii("cube","dysonChargeBoardSquare",color);
+                                oii("cube","dysonChargeBoardClearanceA",color);  
+                                oii("nutM3","dysonChargeBoardClearanceB",color);                                
+                                oii("holeM3","dysonChargeBoardHole",color);                            
+                                oii("nutM3","dysonChargeBoardHole",color);                            
+                            }                            
+                            //negative portion                            
+                            union(){
+//////dysonChargeBoardHole oi
+                                
+                            }                            
+                        }                            
+                    }
+
+//@@@@@@dysonCarcassCutout Asembly                                            
+                    else if(type=="dysonCarcassCutout"){
+                        difference(){                    
+                            //postive portion                        
+                            union(){ 
+//////dewaltCarcassTop oi
+                                oii("cube","dysonCarcassTop",color);  
+//////dewaltCarcassBottom oi
+                                oii("cube","dysonCarcassBottom",color);                         
+                            }                            
+                            //negative portion                            
+                            union(){                            
+                            }                            
+                        }                            
                     }                        
+////////////////////////////////////
+////////////      DeWalt Stuff
+
+//@@@@@@dewaltBatteryHolder Asembly                    
+                    else if(type=="dewaltBatteryHolder"){
+                        difference(){                    
+                            //postive portion                        
+                            union(){ 
+//////dewaltBatteryHolderMain oi
+                                oii("cube","dewaltBatteryHolderMain",color);    
+//////dewaltBatteryHolderWireClearance oi
+                                oii("cube","dewaltBatteryHolderWireClearance",color);                       
+//////dewaltBatteryHolderHoleA oi
+                                oii("holeM3","dewaltBatteryHolderHoleA",color);     
+                                oii("capscrewM3","dewaltBatteryHolderHoleA",color);     
+//////dewaltBatteryHolderHoleB oi
+                                oii("holeM3","dewaltBatteryHolderHoleB",color);                    
+                                oii("capscrewM3","dewaltBatteryHolderHoleB",color);  
+                            }                            
+                            //negative portion                            
+                            union(){                                   
+                            }                            
+                        }                            
+                    }                                            
                     else{    
                         oi(type,x=gvv(str(name,"X")),y=gvv(str(name,"Y")),z=gvv(str(name,"Z")),width=gvv(str(name,"W")),height=gvv(str(name,"H")),depth=gvv(str(name,"D")),rad=gvv(str(name,"Radius")),rotX=gvv(str(name,"RotX")),rotY=gvv(str(name,"RotY")),rotZ=gvv(str(name,"RotZ")),color=color,name=name);
                     }
+                        
                 }
         }
     }
@@ -344,4 +440,190 @@ name=="testWireHoleV2Radius"      ? 5 :
 name=="testWireHoleV2RotX"        ? 76 :
 name=="testWireHoleV2RotY"        ? 0 :
 name=="testWireHoleV2RotZ"        ? 0 :
+
+////////////////////////////////////
+////////////      DeWalt Stuff
+//////dewaltMainV1 dimensions'
+name=="dewaltMainV1W"       ? 110 :
+name=="dewaltMainV1H"       ? 90 :
+name=="dewaltMainV1D"       ? 20 :
+name=="dewaltMainV1X"       ? -45 :
+name=="dewaltMainV1Y"       ? 0 :
+name=="dewaltMainV1Z"       ? 3 :
+name=="dewaltMainV1Radius"      ? 0 :
+name=="dewaltMainV1RotX"        ? 0 :
+name=="dewaltMainV1RotY"        ? 0 :
+name=="dewaltMainV1RotZ"        ? 0 :
+//////dewaltMainHoleA dimensions'
+name=="dewaltMainHoleAW"        ? 0 :
+name=="dewaltMainHoleAH"        ? 0 :
+name=="dewaltMainHoleAD"        ? 0 :
+name=="dewaltMainHoleAX"        ? gvv("dewaltMainV1W") / 2 + gvv("dewaltMainV1X")-6 :
+name=="dewaltMainHoleAY"        ? gvv("dewaltMainV1H") / 2 + gvv("dewaltMainV1Y")-6 : 
+name=="dewaltMainHoleAZ"        ? 0 :
+name=="dewaltMainHoleARadius"       ? 0 :
+name=="dewaltMainHoleARotX"     ? 0 :
+name=="dewaltMainHoleARotY"     ? 0 :
+name=="dewaltMainHoleARotZ"     ? 0 :
+//////dewaltMainB dimensions'
+name=="dewaltMainHoleBD"        ? gvv("dewaltMainHoleAD") :
+name=="dewaltMainHoleBX"        ? -gvv("dewaltMainV1W") / 2 + gvv("dewaltMainV1X")+6 :
+name=="dewaltMainHoleBY"        ? gvv("dewaltMainV1H") / 2 + gvv("dewaltMainV1Y")-6 :
+name=="dewaltMainHoleBZ"        ? gvv("dewaltMainHoleAZ") :
+//////dewaltMainC dimensions'
+name=="dewaltMainHoleCD"        ? gvv("dewaltMainHoleAD") :
+name=="dewaltMainHoleCX"        ? gvv("dewaltMainV1W") / 2 + gvv("dewaltMainV1X")-6 :
+name=="dewaltMainHoleCY"        ? -gvv("dewaltMainV1H") / 2 + gvv("dewaltMainV1Y")+6 :
+name=="dewaltMainHoleCZ"        ? gvv("dewaltMainHoleAZ") :
+//////dewaltMainB dimensions'
+name=="dewaltMainHoleDD"        ? gvv("dewaltMainHoleAD") :
+name=="dewaltMainHoleDX"        ? -gvv("dewaltMainV1W") / 2 + gvv("dewaltMainV1X")+6 :
+name=="dewaltMainHoleDY"        ? -gvv("dewaltMainV1H") / 2 + gvv("dewaltMainV1Y")+6 :
+name=="dewaltMainHoleDZ"        ? gvv("dewaltMainHoleAZ") :
+//////dewaltBatteryHolder dimensions'
+name=="dewaltBatteryHolderW"        ? 0 :
+name=="dewaltBatteryHolderH"        ? 0 :
+name=="dewaltBatteryHolderD"        ? 0 :
+name=="dewaltBatteryHolderX"        ? -34:
+name=="dewaltBatteryHolderY"        ? 0 :
+name=="dewaltBatteryHolderZ"        ? -10 :
+name=="dewaltBatteryHolderRadius"       ? 0 :
+name=="dewaltBatteryHolderRotX"     ? 0 :
+name=="dewaltBatteryHolderRotY"     ? 0 :
+name=="dewaltBatteryHolderRotZ"     ? 0 :
+//////dewaltBatteryHolderMain dimensions'
+name=="dewaltBatteryHolderMainW"        ? 88 :
+name=="dewaltBatteryHolderMainH"        ? 59 :
+name=="dewaltBatteryHolderMainD"        ? 22 :
+name=="dewaltBatteryHolderMainX"        ? 0 :
+name=="dewaltBatteryHolderMainY"        ? 0 :
+name=="dewaltBatteryHolderMainZ"        ? 0 :
+name=="dewaltBatteryHolderMainRadius"       ? 0 :
+name=="dewaltBatteryHolderMainRotX"     ? 0 :
+name=="dewaltBatteryHolderMainRotY"     ? 0 :
+name=="dewaltBatteryHolderMainRotZ"     ? 0 :
+//////dewaltBatteryHolderHoleA dimensions'
+name=="dewaltBatteryHolderHoleAW"       ? 0 :
+name=="dewaltBatteryHolderHoleAH"       ? 0 :
+name=="dewaltBatteryHolderHoleAD"       ? 0 :
+name=="dewaltBatteryHolderHoleAX"       ? 13.25 :
+name=="dewaltBatteryHolderHoleAY"       ? 0 :
+name=="dewaltBatteryHolderHoleAZ"       ? 6 :
+name=="dewaltBatteryHolderHoleARadius"      ? 0 :
+name=="dewaltBatteryHolderHoleARotX"        ? 0 :
+name=="dewaltBatteryHolderHoleARotY"        ? 0 :
+name=="dewaltBatteryHolderHoleARotZ"        ? 0 :
+//////dewaltBatteryHolderHoleB dimensions'
+name=="dewaltBatteryHolderHoleBW"       ? 0 :
+name=="dewaltBatteryHolderHoleBH"       ? 0 :
+name=="dewaltBatteryHolderHoleBD"       ? 0 :
+name=="dewaltBatteryHolderHoleBX"       ? -gvv("dewaltBatteryHolderHoleAX") :
+name=="dewaltBatteryHolderHoleBY"       ? 0 :
+name=="dewaltBatteryHolderHoleBZ"       ? gvv("dewaltBatteryHolderHoleAZ") :
+name=="dewaltBatteryHolderHoleBRadius"      ? 0 :
+name=="dewaltBatteryHolderHoleBRotX"        ? 0 :
+name=="dewaltBatteryHolderHoleBRotY"        ? 0 :
+name=="dewaltBatteryHolderHoleBRotZ"        ? 0 :
+//////dewaltBatteryHolderWireClearance dimensions'
+name=="dewaltBatteryHolderWireClearanceW"       ? 25 :
+name=="dewaltBatteryHolderWireClearanceH"       ? 25 :
+name=="dewaltBatteryHolderWireClearanceD"       ? gvv("dewaltBatteryHolderMainD") + 10 :
+name=="dewaltBatteryHolderWireClearanceX"       ? -(gvv("dewaltBatteryHolderMainW") + gvv("dewaltBatteryHolderWireClearanceW"))/2 :
+name=="dewaltBatteryHolderWireClearanceY"       ? 0 :
+name=="dewaltBatteryHolderWireClearanceZ"       ? gvv("dewaltBatteryHolderMainZ") + 10:
+name=="dewaltBatteryHolderWireClearanceRadius"      ? 0 :
+name=="dewaltBatteryHolderWireClearanceRotX"        ? 0 :
+name=="dewaltBatteryHolderWireClearanceRotY"        ? 0 :
+name=="dewaltBatteryHolderWireClearanceRotZ"        ? 0 :
+////////////////////////////////////
+////////////      Dyson Stuff
+//////dysonChargeBoard dimensions'
+name=="dysonChargeBoardW"       ? 0 :
+name=="dysonChargeBoardH"       ? 0 :
+name=="dysonChargeBoardD"       ? 0 :
+name=="dysonChargeBoardX"       ? -37 :
+name=="dysonChargeBoardY"       ? 0 :
+name=="dysonChargeBoardZ"       ? 3 :
+name=="dysonChargeBoardRadius"      ? 0 :
+name=="dysonChargeBoardRotX"        ? 0 :
+name=="dysonChargeBoardRotY"        ? 0 :
+name=="dysonChargeBoardRotZ"        ? 0 :
+//////dysonChargeBoardSquare dimensions'
+name=="dysonChargeBoardSquareW"     ? 84 :
+name=="dysonChargeBoardSquareH"     ? 28 :
+name=="dysonChargeBoardSquareD"     ? 3 :
+name=="dysonChargeBoardSquareX"     ? 0 :
+name=="dysonChargeBoardSquareY"     ? 0 :
+name=="dysonChargeBoardSquareZ"     ? 0 :
+name=="dysonChargeBoardSquareRadius"        ? 0 :
+name=="dysonChargeBoardSquareRotX"      ? 0 :
+name=="dysonChargeBoardSquareRotY"      ? 0 :
+name=="dysonChargeBoardSquareRotZ"      ? 0 :
+//////dysonChargeBoardClearanceA dimensions'
+name=="dysonChargeBoardClearanceAW"     ? gvv("dysonChargeBoardSquareW") :
+name=="dysonChargeBoardClearanceAH"     ? gvv("dysonChargeBoardSquareH") / 2 -5 :
+name=="dysonChargeBoardClearanceAD"     ? 10 :
+name=="dysonChargeBoardClearanceAX"     ? 0 :
+name=="dysonChargeBoardClearanceAY"     ? -gvv("dysonChargeBoardSquareH") / 2 + gvv("dysonChargeBoardClearanceAH") / 2   :
+name=="dysonChargeBoardClearanceAZ"     ? -gvv("dysonChargeBoardSquareD") :
+name=="dysonChargeBoardClearanceARadius"        ? 0 :
+name=="dysonChargeBoardClearanceARotX"      ? 0 :
+name=="dysonChargeBoardClearanceARotY"      ? 0 :
+name=="dysonChargeBoardClearanceARotZ"      ? 0 :
+//////dysonChargeBoardClearanceB dimensions'
+name=="dysonChargeBoardClearanceBW"     ? 10 :
+name=="dysonChargeBoardClearanceBH"     ? gvv("dysonChargeBoardSquareH") :
+name=="dysonChargeBoardClearanceBD"     ? gvv("dysonChargeBoardClearanceAD") :
+name=="dysonChargeBoardClearanceBX"     ? (gvv("dysonChargeBoardSquareW") - gvv("dysonChargeBoardClearanceBW")) /2 :
+name=="dysonChargeBoardClearanceBY"     ? 0 :
+name=="dysonChargeBoardClearanceBZ"     ? -gvv("dysonChargeBoardSquareD") :
+name=="dysonChargeBoardClearanceBRadius"        ? 0 :
+name=="dysonChargeBoardClearanceBRotX"      ? 0 :
+name=="dysonChargeBoardClearanceBRotY"      ? 0 :
+name=="dysonChargeBoardClearanceBRotZ"      ? 0 :
+//////dysonChargeBoardHole dimensions'
+name=="dysonChargeBoardHoleW"       ? gvv("dysonChargeBoardSquareW") :
+name=="dysonChargeBoardHoleH"       ? gvv("dysonChargeBoardSquareH") :
+name=="dysonChargeBoardHoleD"       ? 0 :
+name=="dysonChargeBoardHoleX"       ? 27 :
+name=="dysonChargeBoardHoleY"       ? gvv("dysonChargeBoardSquareY") :
+name=="dysonChargeBoardHoleZ"       ? -10.5 :
+name=="dysonChargeBoardHoleRadius"      ? gvv("dysonChargeBoardSquareRadius") :
+name=="dysonChargeBoardHoleRotX"        ? gvv("dysonChargeBoardSquareRotX") :
+name=="dysonChargeBoardHoleRotY"        ? gvv("dysonChargeBoardSquareRotY") :
+name=="dysonChargeBoardHoleRotZ"        ? gvv("dysonChargeBoardSquareRotZ") :
+//////dysonCarcass dimensions'
+name=="dysonCarcassW"      ? 0 :
+name=="dysonCarcassH"      ? 0 :
+name=="dysonCarcassD"      ? 0 :
+name=="dysonCarcassX"      ? -50:
+name=="dysonCarcassY"      ? 0 :
+name=="dysonCarcassZ"      ? 0 :
+name=="dysonCarcassRadius"     ? 0 :
+name=="dysonCarcassRotX"       ? 0 :
+name=="dysonCarcassRotY"       ? 0 :
+name=="dysonCarcassRotZ"       ? 0 :
+//////dysonCarcassTop dimensions'
+name=="dysonCarcassTopW"       ? 110 :
+name=="dysonCarcassTopH"       ? 45 :
+name=="dysonCarcassTopD"       ? 100 :
+name=="dysonCarcassTopX"       ? 0 :
+name=="dysonCarcassTopY"       ? 0 :
+name=="dysonCarcassTopZ"       ? gvv("dysonCarcassTopD") :
+name=="dysonCarcassTopRadius"      ? 0 :
+name=="dysonCarcassTopRotX"        ? 0 :
+name=="dysonCarcassTopRotY"        ? 0 :
+name=="dysonCarcassTopRotZ"        ? 0 :
+//////dysonCarcassBottom dimensions'    
+name=="dysonCarcassBottomW"        ? 110 :
+name=="dysonCarcassBottomH"        ? 68 :
+name=="dysonCarcassBottomD"        ? 4 :
+name=="dysonCarcassBottomX"        ? 0 :
+name=="dysonCarcassBottomY"        ? 0 :
+name=="dysonCarcassBottomZ"        ? 0 :
+name=="dysonCarcassBottomRadius"       ? 0 :
+name=="dysonCarcassBottomRotX"     ? 0 :
+name=="dysonCarcassBottomRotY"     ? 0 :
+name=="dysonCarcassBottomRotZ"     ? 0 :
+
 0;
