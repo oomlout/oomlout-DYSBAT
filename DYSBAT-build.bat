@@ -10,11 +10,11 @@ set ITEM[1]=ryobiTestV1
 set ITEM[2]=ryobiTestV2
 set ITEM[3]=dewaltTestV1Top
 set ITEM[4]=dewaltTestV1Bottom
-set ITEM[5]=ZZZZ
+set ITEM[5]=dewaltTestV1
 set ITEM[6]=ZZZZ
-set ITEM[7]=ZZZZ
+set ITEM[7]=laserTest
 set ITEM[8]=ZZZZ
-set ITEM[9]=ZZZZ
+set ITEM[9]=dewaltBatteryNutHelper
 set ITEM[10]=ZZZZ
 set ITEM[11]=ALL
 
@@ -25,7 +25,7 @@ SET LASERFILE=C:\DB\Dropbox\LALA-Laser Files\BBBB-projectFiles\%PROJECT%
 
 del %FILEFULL%.stl
 
-(for /l %%i in (3,1,11) do (
+(for /l %%i in (7,1,11) do (
     echo Making Index: %%i Filename: %FILEFULL%-!ITEM[%%i]!	
     del %FILEFULL%-!ITEM[%%i]!-3DPR.stl   
     openscad -o %FILEFULL%-!ITEM[%%i]!-3DPR.stl -D "i=%%i;o=\"3DPR"" DYSBAT-3DPR.scad
