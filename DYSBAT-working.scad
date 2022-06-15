@@ -191,7 +191,7 @@ module draw9(){
     difference(){
         //postive portion
         union(){
-            oi("cylinder",rad=4,depth=8,color=color);
+            oi("cylinder",rad=4.1,depth=20,color=color);
         }
         //negative portion
         union(){            
@@ -294,7 +294,7 @@ module oii(type,name,color="gray",x=0,y=0,z=0,ex=0,length=0,rotX=0,rotY=0,rotZ=0
                                 oii("cubeRounded","dysonChargeBoardClearanceA",color);  
                                 oii("cubeRounded","dysonChargeBoardClearanceB",color);   
                                 oii("cubeRounded","dysonChargeBoardClearanceC",color);                             
-                                #oii("cubeRounded","dysonChargeBoardClearanceD",color);
+                                oii("cubeRounded","dysonChargeBoardClearanceD",color);
                                 oii("cubeRounded","dysonChargeBoardClearanceE",color);  
                                 oii("cubeRounded","dysonChargeBoardClearanceF",color);                             
                                 oii("holeM3","dysonChargeBoardHole",color);                            
@@ -326,6 +326,15 @@ module oii(type,name,color="gray",x=0,y=0,z=0,ex=0,length=0,rotX=0,rotY=0,rotZ=0
                                 oii("cube","dysonCarcassCloneExtraF",color);
 //////dysonCarcassCloneExtraB oi
                                 oii("cube","dysonCarcassCloneExtraB",color);
+//////dysonCarcassScrewA oi
+                                oii("holeM3","dysonCarcassScrewA",color);                                
+                                oii("nutM3","dysonCarcassScrewA",color);     
+                                oii("holeM3","dysonCarcassScrewB",color);                                
+                                oii("nutM3","dysonCarcassScrewB",color);     
+                                oii("holeM3","dysonCarcassScrewC",color);                                
+                                oii("nutM3","dysonCarcassScrewC",color);     
+                                oii("holeM3","dysonCarcassScrewD",color);                                
+                                oii("nutM3","dysonCarcassScrewD",color);                                
                             }                            
                             //negative portion                            
                             union(){                            
@@ -727,7 +736,7 @@ name=="dysonCarcassBottomRotX"     ? 0 :
 name=="dysonCarcassBottomRotY"     ? 0 :
 name=="dysonCarcassBottomRotZ"     ? 0 :
 //////dysonCarcassFront dimensions'
-name=="dysonCarcassFrontW"      ? 20 :
+name=="dysonCarcassFrontW"      ? 23 :
 name=="dysonCarcassFrontH"      ? 45 :
 name=="dysonCarcassFrontD"      ? 20 :
 name=="dysonCarcassFrontX"      ? -gvv("carcassTopWidth") /2 +gvv("dysonCarcassFrontW") /2:
@@ -759,6 +768,24 @@ name=="dysonCarcassCloneExtraBRadius"       ? gvv("dysonCarcassCloneExtraFRadius
 name=="dysonCarcassCloneExtraBRotX"     ? gvv("dysonCarcassCloneExtraFRotX") :
 name=="dysonCarcassCloneExtraBRotY"     ? gvv("dysonCarcassCloneExtraFRotY") :
 name=="dysonCarcassCloneExtraBRotZ"     ? gvv("dysonCarcassCloneExtraFRotZ") :
-
-
+//////dysonCarcassScrewA dimensions'
+name=="dysonCarcassScrewAX"     ? 25 :
+name=="dysonCarcassScrewAY"     ? 27 :
+name=="dysonCarcassScrewAZ"     ? gvv("dysonCarcassZ") - gvv("dysonCarcassBottomD") - 3 :
+name=="dysonCarcassScrewARadius"        ? 0 :
+name=="dysonCarcassScrewARotX"      ? 0 :
+name=="dysonCarcassScrewARotY"      ? 0 :
+name=="dysonCarcassScrewARotZ"      ? 0 :
+//////dysonCarcassScrewB dimensions'
+name=="dysonCarcassScrewBX"     ? -gvv("dysonCarcassScrewAX") :
+name=="dysonCarcassScrewBY"     ? gvv("dysonCarcassScrewAY") :
+name=="dysonCarcassScrewBZ"     ? gvv("dysonCarcassScrewAZ") :
+//////dysonCarcassScrewC dimensions'
+name=="dysonCarcassScrewCX"     ? gvv("dysonCarcassScrewAX") :
+name=="dysonCarcassScrewCY"     ? -gvv("dysonCarcassScrewAY") :
+name=="dysonCarcassScrewCZ"     ? gvv("dysonCarcassScrewAZ") :
+//////dysonCarcassScrewD dimensions'
+name=="dysonCarcassScrewDX"     ? -gvv("dysonCarcassScrewAX") :
+name=="dysonCarcassScrewDY"     ? -gvv("dysonCarcassScrewAY") :
+name=="dysonCarcassScrewDZ"     ? gvv("dysonCarcassScrewAZ") :
 0;
